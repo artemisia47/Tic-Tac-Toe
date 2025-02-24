@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Tic Tac Toe</h1>
+        <div class="player-inputs">
+            <input type="text" id="player1" placeholder="Player 1 Name">
+            <input type="text" id="player2" placeholder="Player 2 Name">
+            <button id="start-btn">Start Game</button>
+        </div>
+        <div class="gameboard">
+            <!-- Cells will be dynamically generated -->
+        </div>
+        <p id="result"></p>
+        <div id="score-container">
+            <p id="score">Score - Player 1: 0 | Player 2: 0</p>
+        </div>
+        
+
+        <button id="restart-btn">Restart</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

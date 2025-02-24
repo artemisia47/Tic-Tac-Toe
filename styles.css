@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f8f9fa;
+   color: #ffffff;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+
+
+ 
+.gameboard {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: #620b0b;
+    border: 2px solid #000;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.cell.taken {
+    cursor: not-allowed;
+}
+
+button {
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+#score-container {
+    border: 10px solid rgb(166, 2, 2); /* Border around the score */
+    padding: 10px;           /* Space inside the border */
+    width: 300px;            /* Set a fixed width */
+    margin: 20px auto;       /* Center it horizontally */
+    text-align: center;      /* Align text in center */
+    font-size: 1.2em;        /* Make the text bigger */
+    background-color: #ffffff; /* Light gray background */
+    border-radius: 10px;     /* Rounded corners */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    color: #000000;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+h1 {
+    color: rgb(129, 12, 12); /* Change this to any color you want */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow effect */
+}
