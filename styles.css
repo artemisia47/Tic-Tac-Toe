@@ -65,3 +65,10 @@ h1 {
     color: rgb(129, 12, 12); /* Change this to any color you want */
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow effect */
 }
+#turn-indicator {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    text-align: center;
+}

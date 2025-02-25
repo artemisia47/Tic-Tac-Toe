@@ -1,3 +1,4 @@
+// Gameboard Module (Handles board state)
 const Gameboard = (() => {
     let board = ["", "", "", "", "", "", "", "", ""];
 
@@ -22,25 +23,27 @@ const Gameboard = (() => {
         for (let pattern of winPatterns) {
             const [a, b, c] = pattern;
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                return board[a]; // Return the winner's marker (X or O)
+                return board[a]; // Return winner's marker (X or O)
             }
         }
 
-        return board.includes("") ? null : "Tie"; // Return 'Tie' if the board is full
+        return board.includes("") ? null : "Tie"; // Return 'Tie' if board is full
     };
 
     return { getBoard, placeMarker, checkWinner, resetBoard };
 })();
 
+// Player Factory Function
 const Player = (name, marker) => {
-    return { name, marker, score: 0 }; // Added score property
+    return { name, marker, score: 0 };
 };
 
+// Game Controller (Handles game logic)
 const GameController = (() => {
     let players = [];
     let currentPlayerIndex = 0;
     let gameActive = false;
-    const WIN_LIMIT = 3; // Number of wins required to declare final winner
+    const WIN_LIMIT = 3; // Number of wins to declare final winner
 
     const startGame = (player1Name, player2Name) => {
         players = [
@@ -51,70 +54,68 @@ const GameController = (() => {
         gameActive = true;
         Gameboard.resetBoard();
         DisplayController.renderBoard();
-        DisplayController.updateMessage(`${players[currentPlayerIndex].name}'s turn!`);
+        DisplayController.updateTurnIndicator(`${players[currentPlayerIndex].name}'s turn!`);
         DisplayController.updateScore(players[0].score, players[1].score);
     };
 
     const handleMove = (index) => {
-        if (!gameActive) return; // Prevent moves if game is not active
+        if (!gameActive) return;
 
         if (Gameboard.placeMarker(index, players[currentPlayerIndex].marker)) {
             DisplayController.renderBoard();
             const winner = Gameboard.checkWinner();
 
             if (winner) {
-                gameActive = false; // Stop further moves
+                gameActive = false;
 
                 if (winner !== "Tie") {
-                    players[currentPlayerIndex].score++; // Increase winner's score
+                    players[currentPlayerIndex].score++;
                     DisplayController.updateScore(players[0].score, players[1].score);
 
-                    // Check if the player reached the WIN_LIMIT
+                    // Check if player reached the WIN_LIMIT
                     if (players[currentPlayerIndex].score >= WIN_LIMIT) {
-                        DisplayController.updateMessage(`${players[currentPlayerIndex].name} is the FINAL WINNER! 🏆`);
-                        
+                        DisplayController.updateTurnIndicator(`${players[currentPlayerIndex].name} is the FINAL WINNER! 🏆`);
                         setTimeout(() => {
-                            resetGame(); // Reset game after showing the winner message
-                        }, 3000); // Show message for 3 seconds before reset
-
+                            resetGame();
+                        }, 3000);
                         return;
                     }
                 }
 
-                DisplayController.updateMessage(
+                DisplayController.updateTurnIndicator(
                     winner === "Tie" ? "It's a Tie!" : `${players[currentPlayerIndex].name} Wins this round!`
                 );
             } else {
                 currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
-                DisplayController.updateMessage(`${players[currentPlayerIndex].name}'s turn!`);
+                DisplayController.updateTurnIndicator(`${players[currentPlayerIndex].name}'s turn!`);
             }
         }
     };
 
     const resetGame = () => {
         gameActive = false;
-        players.forEach(player => player.score = 0); // Reset scores
+        players.forEach(player => player.score = 0);
         DisplayController.updateScore(0, 0);
-        DisplayController.updateMessage("Enter names and press Start!");
+        DisplayController.updateTurnIndicator("Enter names and press Start!");
         Gameboard.resetBoard();
         DisplayController.renderBoard();
     };
 
     const restartRound = () => {
-        if (players[0].score >= WIN_LIMIT || players[1].score >= WIN_LIMIT) return; // Prevent playing after final win
-        
+        if (players[0].score >= WIN_LIMIT || players[1].score >= WIN_LIMIT) return;
         gameActive = true;
         Gameboard.resetBoard();
         DisplayController.renderBoard();
-        DisplayController.updateMessage(`${players[currentPlayerIndex].name}'s turn!`);
+        DisplayController.updateTurnIndicator(`${players[currentPlayerIndex].name}'s turn!`);
     };
 
     return { startGame, handleMove, restartRound, resetGame };
 })();
 
+// Display Controller (Handles UI updates)
 const DisplayController = (() => {
     const boardElement = document.querySelector(".gameboard");
-    const resultElement = document.getElementById("result");
+    const turnIndicatorElement = document.getElementById("turn-indicator");
     const scoreElement = document.getElementById("score");
     const startButton = document.getElementById("start-btn");
     const restartButton = document.getElementById("restart-btn");
@@ -133,8 +134,8 @@ const DisplayController = (() => {
         });
     };
 
-    const updateMessage = (message) => {
-        resultElement.textContent = message;
+    const updateTurnIndicator = (message) => {
+        turnIndicatorElement.textContent = message;
     };
 
     const updateScore = (score1, score2) => {
@@ -149,8 +150,9 @@ const DisplayController = (() => {
 
     restartButton.addEventListener("click", GameController.restartRound);
 
-    return { renderBoard, updateMessage, updateScore };
+    return { renderBoard, updateTurnIndicator, updateScore };
 })();
 
 // Initialize the game board on page load
 DisplayController.renderBoard();
+d
